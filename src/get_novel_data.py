@@ -54,18 +54,26 @@ def get_html(url, dbname):
         conn.close()
     return html
 
-year = datetime.datetime.today().year
-month = datetime.datetime.today().month
-day = datetime.datetime.today().day
+# year = datetime.datetime.today().year
+# month = datetime.datetime.today().month
+# day = datetime.datetime.today().day
 
-date = int(year)*10000+int(month)*100+int(day)
-url = 'https://yomou.syosetu.com/rank/list/type/daily_total/'
-html = get_html(url, DB_NAME)
-# print(html)
-soup = BeautifulSoup(html, 'lxml')
-for sep in soup.find_all('div', class_='ranking_list'):
-    # print(sep.find('a').text)
-    l = []
-    for keyword in sep.find('td', class_='keyword').find_all('a'):
-        l.append(keyword.text)
-    print(l)
+# date = int(year)*10000+int(month)*100+int(day)
+# url = 'https://yomou.syosetu.com/rank/list/type/daily_total/'
+# html = get_html(url, DB_NAME)
+
+while True:
+    year = datetime.datetime.today().year
+    month = datetime.datetime.today().month
+    day = datetime.datetime.today().day
+
+    date = int(year)*10000+int(month)*100+int(day)
+    url = 'https://yomou.syosetu.com/rank/list/type/daily_total/'
+    html = get_html(url, DB_NAME)
+    last_date = date
+    while date == last_date:
+        year = datetime.datetime.today().year
+        month = datetime.datetime.today().month
+        day = datetime.datetime.today().day
+        date = int(year)*10000+int(month)*100+int(day)
+        time.sleep(60*60*12)
